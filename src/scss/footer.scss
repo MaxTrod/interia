@@ -1,0 +1,175 @@
+//====================================================================================================
+.footer {
+   // .footer__container
+   &__container {}
+   // .footer__main
+   &__main {
+      background-color: $darkBg;
+   }
+   // .footer__bottom
+   &__bottom {
+      transform: translate(0, 100px);
+      transition: all 1s;
+      opacity: 0;
+      &._watcher-view {
+         transform: translate(0, 0px);
+         opacity: 1;
+      }
+   }
+}
+.main-footer {
+	// .main-footer__container
+	&__container {
+      padding-top: toRem(57);
+      padding-bottom: toRem(61);
+      @include adaptiveValue("padding-top", 57, 25);
+      @include adaptiveValue("padding-bottom", 61, 10);
+      display: grid;
+   }
+   // .main-footer__navigation
+   &__navigation {
+      transform: translate(0, 100px);
+      transition: all 1s;
+      opacity: 0;
+      &._watcher-view {
+         transform: translate(0, 0px);
+         opacity: 1;
+      }
+   }
+    // .main-footer__body
+    &__body {
+      transform: translate(0, 100px);
+      transition: all 1s;
+      opacity: 0;
+      &._watcher-view {
+         transform: translate(0, 0px);
+         opacity: 1;
+      }
+
+      @include adaptiveValue("padding-top", 97, 20);
+      @include adaptiveValue("padding-bottom", 97, 20);
+      display: grid;
+      column-gap: toRem(20);
+      row-gap: toRem(20);
+      align-items: center;
+      @media (min-width:$mobile){
+         grid-template-columns: percent(369, $maxWidthContainer) 1fr;
+      }
+    }
+   // .main-footer__social
+   &__social {
+      position: relative;
+      &::after{
+         position: absolute;
+         content: '';
+         right: 0;
+         top: 50%;
+         transform: translate(0,-50%);
+         width: toRem(1);
+         height: 250%;
+         background-color: #212828;
+         @media (max-width:$mobile){
+             display: none; 
+         }
+      }
+   }
+   // .main-footer__text
+   &__text {
+      @media (min-width:$mobile){
+         justify-self: end;
+         max-width: toRem(480);
+         text-align: right;
+      }
+      p{
+         &:not(:last-child) {
+            margin-bottom: toRem(15);
+         }
+      }
+   }
+}
+.navigation-main-footer {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   column-gap: toRem(20);
+   row-gap: toRem(20);
+   @include adaptiveValue("padding-top", 70, 20);
+   @include adaptiveValue("padding-bottom", 70, 20);
+   border-bottom: toRem(1) solid #212828;
+   @media (max-width:em(620)){
+      flex-direction: column-reverse;
+   }
+   // .navigation-main-footer__menu
+   &__menu {}
+   // .navigation-main-footer__list
+   &__list {
+      display: flex;
+      @include adaptiveValue("column-gap", 55, 20, 0, $containerWidth, 768);
+      row-gap: toRem(5);
+      flex-wrap: wrap;
+   }
+   // .navigation-main-footer__item
+   &__item {}
+   // .navigation-main-footer__link
+   &__link {
+      @media (any-hover: hover){
+         &:hover{
+            text-decoration: underline;
+         }
+      }
+   }
+   // .navigation-main-footer__logo
+   &__logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 toRem(100);
+      width: toRem(100);
+      @media (max-width:em(620)){
+         flex: 1 1 auto;
+      }
+      img {
+         max-width: 100%;
+      }
+   }
+}
+.bottom-footer {
+   @include adaptiveValue("padding-top", 50, 20);
+   @include adaptiveValue("padding-bottom", 50, 20);
+   // .bottom-footer__container
+	&__container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      column-gap: toRem(20);
+      row-gap: toRem(20);
+      @media (max-width:$mobile){
+         flex-direction: column-reverse; 
+      }
+   }
+   // .bottom-footer__copy
+   &__copy {
+      text-align: center;
+   }
+   // .bottom-footer__links
+   &__links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      row-gap: toRem(5);
+      @include adaptiveValue(" column-gap", 92, 20, 0, $containerWidth, 767);
+      text-transform: uppercase;
+      color: $greyColor;
+      letter-spacing: toRem(6.88);
+      line-height: 1.5;
+   }
+   // .bottom-footer__link
+   &__link {
+      @media (any-hover: hover){
+         &:hover{
+            text-decoration: underline;
+         }
+      }
+   }
+}
+//====================================================================================================

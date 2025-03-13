@@ -1,0 +1,1073 @@
+@use "sass:math";
+
+// Підключення міксинів ===========================================================================================================================================================================================================================================================================
+@import "base/mixins";
+
+// Підключення шрифтів ===========================================================================================================================================================================================================================================================================
+//&display=swap - додати при підключенні через плагін
+@import url('https://fonts.googleapis.com/css?family=Kanit:regular&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito:regular&display=swap');
+// Підключити, якщо є локальні файли шрифтів
+@import "fonts/fonts";
+
+// Підключення іконкових шрифтів ==============================================================================================================================================================================================================================================================================
+// Підключити, якщо є файл іконкового шрифту
+@import "fonts/icons";
+
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+// Налаштування шаблону ============================================================================================================================================================================================================================================================================================================================================================================================
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+
+// За замовчуванням шрифт ==============================================================================================================================================================================================================================================================================
+$fontFamily: "Nunito";
+$fontSize: toRem(16); // де 14(px) - розмір шрифту за замовчуванням з макету
+
+// Основні кольори
+$mainColor: #fff; // Колір шрифту за замовчуванням
+$greyColor: #6D7D7D; 
+$darkBg: #131616; 
+$greyBg: #191D1D; 
+// Палітра кольорів
+// @import "base/colors-palette";
+
+// Налаштування адаптивної сітки ===============================================================================================================================================================================================================================================================================================
+
+// Мінімальна ширина сторінки
+$minWidth: 320;
+// Ширина полотна (макету)
+$maxWidth: 1920;
+// Ширина обмежуючого контейнера (0 = немає обмеження)
+$maxWidthContainer: 1140;
+// Загальний відступ у контейнера
+// (30 = по 15px ліворуч і праворуч, 0 = немає відступу)
+$containerPadding: 30;
+
+// Ширина спрацьовування першого брейкпоінту
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Брейк-поїнти
+$pc: em($containerWidth); // ПК, ноутбуки, деякі планшети у горизонтальному положенні
+$tablet: em(991.98); // Планшети, деякі телефони в горизонтальному положенні
+$mobile: em(767.98); // Телефони L
+$mobileSmall: em(479.98); // Телефони S
+
+// Тип адаптива:
+// 1 = чуйність (у контейнера немає брейкпоінтів),
+// 2 = по брейк-поїнт (контейнер змінює свою ширину по брейк-поїнт)
+$responsiveType: 1;
+
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+// ============================================================================================================================================================================================================================================================================================================================================================================================
+
+// Обнулення ============================================================================================================================================================================================== =============================================================================================== ===============================================================================================
+@import "base/null";
+
+// Стилі тега BODY ============================================================================================================================================================================================================================================================================================================================================================================================
+body {
+	background-color: $greyBg;
+	line-height: 137.5%; /* 22/16 */
+	// Скролл заблоковано
+	.lock & {
+		overflow: hidden;
+		touch-action: none;
+		overscroll-behavior: none;
+	}
+	// Сайт завантажений
+	.loaded & {
+	}
+}
+// Оболонка wrapper ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+.wrapper {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	@supports (overflow: clip) {
+		overflow: clip;
+	}
+	// Притискаємо footer
+	> main {
+		flex: 1 1 auto;
+	}
+	// Фікс для слайдерів
+	> * {
+		min-width: 0;
+	}
+}
+// Обмежуючий контейнер ======================================================================================================================================================================================================================
+/*
+(i) Стилі будуть застосовуватись до
+всіх класів, що містять *__container
+Наприклад header__container, main__container і т.п.
+Сніппет (HTML): cnt
+*/
+@if ($responsiveType==1) {
+	// Чуйна
+	[class*="__container"] {
+		@if ($maxWidthContainer>0) {
+			max-width: toRem($containerWidth);
+			margin: 0 auto;
+		}
+		@if ($containerPadding>0) {
+			@if ($maxWidthContainer>0) {
+				padding: 0 toRem(math.div($containerPadding, 2));
+			} @else {
+				@include adaptiveValue("padding-left", math.div($containerPadding, 2), 15);
+				@include adaptiveValue("padding-right", math.div($containerPadding, 2), 15);
+			}
+		}
+	}
+} @else {
+	// Брейк-поїнтами
+	[class*="__container"] {
+		margin: 0 auto;
+		@if ($maxWidthContainer>0) {
+			max-width: toRem($containerWidth);
+		} @else {
+			@if ($containerPadding>0) {
+				padding: 0 toRem(math.div($containerPadding, 2));
+			}
+		}
+		@media (max-width: $pc) {
+			max-width: toRem(970);
+		}
+		@media (max-width: $tablet) {
+			max-width: toRem(750);
+		}
+		@media (max-width: $mobile) {
+			max-width: none;
+			@if ($containerPadding>0 and $maxWidthContainer>0) {
+				padding: 0 toRem(math.div($containerPadding, 2));
+			}
+		}
+	}
+}
+
+// Підключення базових стилів, шаблонів (заготівель) та допоміжних класів
+// Для підключення/вимкнення конкретних стилів дивись base.scss
+@import "base";
+
+// Підключення стилів загальних елементів проекту
+@import "common";
+
+// Підключення стилів окремих блоків
+@import "header";
+@import "footer";
+
+// Підключення стилів окремих сторінок
+@import "home";
+
+
+
+//========================================================================================================================================================
+.hero {
+	position: relative;
+	// .hero__image
+	&__image-ibg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		@media (max-width:$mobile){
+			opacity: 0.5; 
+		}
+	}
+	// .hero__container
+	&__container {
+		@include adaptiveValue("padding-top", 103, 70, 0, $maxWidthContainer, 767.98);
+		@include adaptiveValue("padding-bottom", 103, 70, 0, $maxWidthContainer, 767.98);
+		position: relative;
+		z-index: 2;
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		@media (max-width:$mobile){
+			justify-content: center;
+		}
+	}
+	// .hero__body
+	&__body {
+		max-width: toRem(580);
+		@media (max-width:$mobile){
+			text-align: center; 
+		}
+	}
+	// .hero__header
+	&__header {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 42, 15);
+		}
+		.header-block__title {
+			&:not(:last-child) {
+				margin-bottom: toRem(10);
+			}
+		}
+		.header-block__title,
+		.header-block__text {
+			opacity: 0;
+			transform: translate(0, 50px);
+			._watcher-view & {
+				opacity: 1;
+				transition: all 1s;
+				transform: translate(0, 0);
+			}
+		}
+		.header-block__title {
+			._watcher-view & {
+				transition-delay: 0.5s;
+			}
+		}
+		.header-block__text {
+			._watcher-view & {
+				transition-delay: 0.7s;
+			}
+		}
+	}
+	// .hero__play
+	&__play {
+		opacity: 0;
+		transform: translate(0, 50px);
+		._watcher-view & {
+			opacity: 1;
+			transition: 
+				opacity 1s 0.9s, 
+				transform 1s 0.9s,
+				background-color 0.3s, 
+				border 0.3s;
+			transform: translate(0, 0);
+		}
+
+		padding-left: toRem(7);
+		padding-top: toRem(2);
+		width: toRem(69);
+		height: toRem(69);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		font-size: toRem(28);
+		border: toRem(1) solid #6D7D7D;
+		&::before {
+			transition: color 0.3s;
+		}
+		@media (any-hover: hover){
+			&:hover{
+				border: toRem(1) solid #fff;
+				background-color: #fff;
+				&::before{
+					color: #000;
+				}
+			}
+		}
+		@media (max-width:$mobile){
+			margin: 0 auto;
+		}
+		animation: play 1s ease infinite alternate 3s forwards;
+		@keyframes play {
+			0% {
+				border: toRem(1) solid #6D7D7D;
+			}
+			100% {
+				border: toRem(1) solid #fff;
+			}
+		}
+	}
+	// .hero__swipe
+	&__swipe {
+		opacity: 0;
+		transform: translate(-50px, 0);
+		._watcher-view & {
+			opacity: 1;
+			transition: opacity 1s, transform 1s;
+			transform: translate(0, 0) rotate(-90deg);
+			transition-delay: 1.2s;
+		}
+
+		cursor: pointer;
+		position: absolute;
+		left: toRem(-50);
+		bottom: toRem(130);
+		// transform: rotate(-90deg);
+		font-family: Kanit;
+		letter-spacing: toRem(6.88);
+		text-transform: uppercase;
+		transition: color 0.3s;
+		@media (max-width:$mobile){
+			font-size: toRem(14); 
+			bottom: toRem(100);
+			left: toRem(-60);
+		}
+		@media (any-hover: hover){
+			&:hover{
+				color: #ffff00;
+			}
+		}
+		animation: vertical 2s ease-in-out infinite alternate 3s forwards;
+		@keyframes vertical {
+			0% {
+				bottom: toRem(130);
+			}
+			100% {
+				bottom: toRem(100);
+			}
+		}
+	}
+}
+
+//========================================================================================================================================================
+.about {
+	transform: translate(0, 100px);
+	transition: all 1s;
+	opacity: 0;
+	&._watcher-view {
+		transform: translate(0, 0px);
+		opacity: 1;
+	}
+
+	padding-top: toRem(100);
+	padding-bottom: toRem(50);
+	// .about__container
+	&__container {}
+	// .about__header
+	&__header {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 75, 10);
+      }
+	}
+	// .about__content
+	&__content {}
+}
+.content-about {
+	align-items: start;
+	position: relative;
+	display: grid;
+	grid-template-rows: auto 1fr;
+	grid-template-columns: 44.8% 1fr;
+	column-gap: toRem(23);
+	row-gap: toRem(20);
+	@media (max-width: em(840)){
+		grid-template-columns: repeat(2,1fr);
+		grid-template-rows: auto;
+	}
+	@media (max-width: em(640)){
+		grid-template-columns: auto;
+	}
+	// .content-about__achievements
+	&__achievements {
+		order: 3;
+		@media (max-width: em(640)) {
+			order: 2;
+		}
+	}
+	// .content-about__learn
+	&__learn {
+		order: 2;
+		@media (max-width: em(640)) {
+			order: 3;
+		}
+	}
+	// .content-about__pictures
+	&__pictures {
+		grid-row: span 2;
+		@media (max-width: em(640)) and (min-width: em(840)){
+			order: 1;
+		}
+		@media (max-width: em(840)){
+			grid-column: span 2;
+			grid-row: span 1;
+	 }
+	 @media (max-width: em(640)) {
+			grid-column: span 1;
+	 	}
+	}
+}
+.achievements-about {
+	align-self: center;
+	padding: toRem(20) toRem(50) toRem(10) toRem(50);
+	@media (max-width:$pc){
+		padding: toRem(10);
+	}
+	// .achievements-about__items
+	&__items {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: toRem(10);
+		flex-wrap: wrap;
+	}
+	// .achievements-about__item
+	&__item {
+			max-width: toRem(125);
+			transform: translate(100%, 0);
+			transition: transform ease 1s, opacity ease 1s;
+			opacity: 0;
+
+			._watcher-view & {
+				transform: translate(0, 0);
+				opacity: 1;
+			@for $i from 1 through 4 {
+				&:nth-child(#{$i}) {
+					$startDelay: 0.5;
+					$delay: $i * 0.1 + $startDelay;
+					transition-delay: #{$delay}s;
+				}
+			}
+		}
+	}
+	// .achievements-about__label
+	&__label {
+		color: $greyColor;
+		font-family: Kanit;
+		@include adaptiveValue("font-size", 40, 25);
+		line-height: 150%; /* 60/40 */
+	}
+	// .achievements-about__text
+	&__text {
+		font-family: Kanit;
+		line-height: 150%;
+		@include adaptiveValue("font-size", 16, 14);
+		text-transform: uppercase;
+		letter-spacing: toRem(6.88);
+	}
+}
+.learn-about {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	column-gap: toRem(10);
+	@media (max-width: em(840)) {
+		display: block;
+		text-align: left;
+	}
+	// .learn-about__image-ibg
+	&__image-ibg {
+		padding-bottom: percent(243, 610);
+		flex: 0 0 percent(243, 610);
+		border-radius: 0px 22% 0px 0px;
+		overflow: hidden;
+		@media (max-width: em(840)) {
+			padding-bottom: percent(243, 243);
+			&:not(:last-child) {
+				margin-bottom: toRem(20);
+			}
+		}
+	}
+	// .learn-about__button
+	&__button {
+		@media (max-width:em(840)){
+			padding: toRem(7) toRem(20);
+		}
+	}
+}
+.pictures-about {
+	display: flex;
+	justify-content: space-between;
+	height: 100%;
+	// .pictures-about__image-ibg
+	&__image-ibg {
+		padding-bottom: percent(442, 507);
+		flex: 0 0 percent(240, 507);
+	}
+}
+//========================================================================================================================================================
+.hire {
+	transform: translate(0, 100px);
+	transition: all 1s;
+	opacity: 0;
+	&._watcher-view {
+		transform: translate(0, 0px);
+		opacity: 1;
+	}
+
+	padding-top: toRem(50);
+	padding-bottom: toRem(50);
+	position: relative;
+	&::before, &::after{
+		position: absolute;
+		content: '';
+		width: 100%;
+		height: 50%;
+	}
+	&::before {
+		top: 0;
+		background-color: $greyBg;
+	}
+	&::after {
+		bottom: 0;
+		background-color: $darkBg;
+	}
+	// .hire__container
+	&__container {
+		position: relative;
+		z-index: 2;
+	}
+	// .hire__body
+	&__body {
+		position: relative;
+		// overflow: hidden;
+		display: flex;
+		flex-direction: row-reverse;
+		align-items: center;
+		border-radius: toRem(50) toRem(50) 0px toRem(50);
+		background-color: #212828;
+		@media (max-width: $mobile){
+			flex-direction: column;
+			border-radius: toRem(30);
+		}
+	}
+	// .hire__picture
+	&__picture {
+		border-radius: toRem(50) 0px 0px toRem(50);
+		flex: 0 0 percent(367, 1140);
+		align-self: stretch;
+		position: relative;
+		aspect-ratio: 367 / 318;
+		overflow: hidden;
+		clip-path: circle(71% at 31% 48%);
+		@media (max-width:$mobile){
+			border-radius: toRem(0) toRem(0) toRem(30) toRem(30);
+			clip-path: none;
+		}
+	}
+	// .hire__image-ibg
+	&__image-ibg {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		left: 0;
+		height: 100%;
+		img {
+			transform: scale(1.2);
+		}
+	}
+	// .hire__content
+	&__content {
+		padding-top: toRem(20);
+		padding-bottom: toRem(20);
+		padding-right: toRem(20);
+		flex: 1 1 auto;
+		@include adaptiveValue("padding-left", 147, 20, 0, $maxWidthContainer, 767);
+		@media (max-width:$mobileSmall){
+			padding-top: toRem(10);
+			padding-right: toRem(10);
+		}
+	}
+	// .hire__title
+	&__title {
+		font-family: Kanit;
+      @include adaptiveValue("font-size", 40, 30);
+		line-height: 1.5;
+      &:not(:last-child) {
+         margin-bottom: toRem(19);
+      }
+	}
+	// .hire__button
+	&__button {
+		padding-left: toRem(52);
+		padding-right: toRem(52);
+		@media (max-width:$mobile){
+			padding: toRem(7) toRem(20);
+		}
+		@media (max-width:$mobileSmall){
+			width: 100%;  
+		}
+	}
+}
+//========================================================================================================================================================
+.teams {
+	background-color: $darkBg;
+	// .teams__anim-fix
+	&__anim-fix {
+		transform: translate(0, 10%);
+		opacity: 0;
+		transition: transform 1s, opacity 1s;
+		._watcher-view &{
+			transform: translate(0, 0);
+			opacity: 1;
+		}
+
+		padding-top: toRem(50);
+		padding-bottom: toRem(50);
+	}
+
+	// .teams__container
+	&__container {
+		display: flex;
+		align-items: flex-start;
+		gap: toRem(20);
+		@media (max-width:$mobile){
+			flex-direction: column;
+			align-items: stretch;
+		}
+	}
+	// .teams__content
+	&__content {
+		flex: 0 1 50%;
+		@media (max-width:$mobile){
+			flex: 1 1 auto;
+		}
+	}
+	// .teams__pictures
+	&__pictures {
+		flex: 0 1 50%;
+		@media (max-width:$mobile){
+			flex: 1 1 auto;
+		}
+	}
+}
+.content-teams {
+	// .content-teams__wrap
+	&__wrap {
+		@media (min-width:$mobile){
+			max-width: toRem(440);
+		}
+		.header-block__title {
+			&:not(:last-child) {
+				@include adaptiveValue("margin-bottom", 27, 10);
+			}
+		}
+	}
+	// .content-teams__header
+	&__header {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 74, 20);
+		}
+		.header-block__label,
+		.header-block__title,
+		.header-block__text {
+			transform: translate(0, 20%);
+			opacity: 0;
+			._watcher-view &{
+				transition: transform 1.5s, opacity 1.5s;	
+				transform: translate(0, 0);
+				opacity: 1;
+			}
+		}
+		.header-block__label {
+			._watcher-view &{
+				transition-delay: 0.2s;
+			}
+		}
+		.header-block__title {
+			._watcher-view &{
+				transition-delay: 0.6s;
+			}
+		}
+		.header-block__text {
+			._watcher-view &{
+				transition-delay: 0.8s;
+			}
+		}
+	}
+	// .content-teams__customers
+	&__customers {
+			transform: translate(0, 20%);
+			opacity: 0;
+			transition: transform 1.5s, opacity 1.5s;	
+			._watcher-view &{
+				transition-delay: 1s;
+				transform: translate(0, 0);
+				opacity: 1;
+			}
+	}
+}
+.customers-content-teams {
+	display: grid;
+	gap: toRem(16);
+	// .customers-content-teams__images
+	&__images {
+		display: flex;
+	}
+	// .customers-content-teams__image
+	&__image {
+		flex: 0 0 toRem(55);
+		height: toRem(55);
+		width: toRem(55);
+		border-radius: 50%;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		filter: grayscale(100%); 
+		position: relative;
+		z-index: 2;
+		&:not(:first-child) {
+			margin-left: -10px;
+			img{
+				transform: scale(1.6);
+			}
+		}
+		&:not(:last-child) {
+			&::before{
+				content: '';
+				position: absolute;
+				width: 65px;
+				height: 65px;
+				border-radius: 50%;
+				background-color: $darkBg;
+				left: 75%;
+				z-index: 3;
+			}
+		}
+		img{
+			max-width: 100%;
+			transform: scale(1.2);
+		}
+	}
+	// .customers-content-teams__reviews
+	&__reviews {
+		display: flex;
+		column-gap: toRem(8);
+	}
+	// .customers-content-teams__rating
+	&__rating {}
+	// .customers-content-teams__value
+	&__value {}
+	// .customers-content-teams__text
+	&__text {
+		
+	}
+}
+.pictures-teams {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	@include adaptiveValue("gap", 23, 12);
+	@media (max-width:$mobileSmall){
+		grid-template-columns: auto;
+	}
+	// .pictures-teams__image
+	&__image {
+		aspect-ratio: 274/ 274;
+		position: relative;
+		overflow: hidden;
+		img {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			object-fit: cover;
+		}
+		&--border{
+			border-radius: 0px 0px toRem(50) 0px;
+			@media (max-width:$mobileSmall){
+				border-radius: 0px;
+			}
+		}
+	}
+	// .pictures-teams__learn
+	&__learn {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		@media (max-width:$mobileSmall){
+			order: 1;
+		}
+	}
+	// .pictures-teams__button
+	&__button {
+		@media (max-width:$mobileSmall){
+			 width: 100%; 
+		}
+	}
+}
+//========================================================================================================================================================
+.partners {
+	padding-top: toRem(50);
+	padding-bottom: toRem(124);
+	background-color: $darkBg;
+	// .partners__container
+	&__container {}
+	// .partners__items
+	&__items {
+		@media (min-width:$tablet){
+			padding-left: toRem(36);
+			padding-right: toRem(66);
+		}
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		column-gap: toRem(20);
+		row-gap: toRem(30);
+		@media (max-width:$mobileSmall){
+			flex-direction: column;
+		}
+	}
+	// .partners__item
+	&__item {
+		img{
+			max-width: 100%;
+		}
+			transform: translate(50px, 0);
+			transition: all 1s ease;
+			opacity: 0;
+
+			._watcher-view & {
+				transform: translate(0px, 0);
+				opacity: 1;
+			@for $i from 1 through 4 {
+				&:nth-child(#{$i}) {
+					// $startDelay: 0.2;
+					$delay: $i * 0.1;
+					// $delay: $i * 0.1 + $startDelay;
+					transition-delay: #{$delay}s;
+				}
+			}
+		}
+	}
+}
+//========================================================================================================================================================
+.design {
+	padding-top: toRem(50);
+	// .design__container
+	&__container {}
+	// .design__list
+	&__list {
+		counter-reset: item;
+	}
+	// .design__row
+	&__row {
+		transform: translate(0, 100px);
+		transition: all 1s ease;
+		opacity: 0;
+
+		._watcher-view & {
+			transform: translate(0, 0px);
+			opacity: 1;
+		@for $i from 1 through 3 {
+			&:nth-child(#{$i}) {
+				// $startDelay: 0.2;
+				$delay: $i * 0.3;
+				// $delay: $i * 0.1 + $startDelay;
+				transition-delay: #{$delay}s;
+			}
+		}
+	}
+	}
+	// .design__images
+	&__images {
+		transform: translate(0, 100px);
+		transition: all 1s;
+		opacity: 0;
+		&._watcher-view {
+			transform: translate(0, 0px);
+			opacity: 1;
+		}
+	}
+}
+.row-design {
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	column-gap: toRem(20);
+	position: relative;
+	align-items: center;
+	padding: toRem(47) toRem(0) toRem(47) toRem(0);
+	@media (max-width:$mobile){
+		grid-template-columns: auto;
+		row-gap: toRem(20);
+		padding: toRem(29) toRem(0) toRem(20) toRem(0);
+	}
+	// .row-design__summary
+	&__summary {
+		font-family: Kanit;
+      @include adaptiveValue("font-size", 40, 30);
+		display: flex;
+		align-items: flex-start;
+		line-height: 1;
+		column-gap: toRem(12);
+		// position: relative;
+		&::before{
+			counter-increment: item;
+			content: counter(item, decimal-leading-zero)'.';
+		}
+	}
+	// .row-design__info
+	&__info {}
+	// .row-design__text
+	&__text {
+		&:not(:last-child) {
+			margin-bottom: toRem(22);
+		}
+	}
+	// .row-design__link-body
+	&__link-body {}
+	// .row-design__link
+	&__link {}
+}
+.images-design {
+	// .images-design__body
+	&__body {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: toRem(515);
+		@media (max-width:$mobile){
+			grid-template-columns: repeat(2, auto);
+			grid-template-rows: repeat(2, toRem(400));
+		}
+		&::-webkit-scrollbar {
+			display: none;
+	  }
+	}
+	// .images-design__item-ibg
+	&__item-ibg {
+		overflow: hidden;
+		img {
+			transition: filter 0.5s;
+			@media (any-hover: hover) {
+				filter: grayscale(1);
+				&:hover{
+					filter: grayscale(0);
+				}
+			}
+		}
+	}
+}
+
+//========================================================================================================================================================
+.blog {
+	transform: translate(0, 100px);
+	transition: all 1s;
+	opacity: 0;
+	&._watcher-view {
+		transform: translate(0, 0px);
+		opacity: 1;
+	}
+
+	padding-top: toRem(100);
+	padding-bottom: toRem(38);
+	// .blog__container
+	&__container {
+		border-bottom: toRem(1) solid #212828;
+		padding-bottom: toRem(100);
+	}
+	// .blog__header
+	&__header {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 35, 15);
+		}
+	}
+	// .blog__items
+	&__items {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(toRem(270), 1fr));
+		@include adaptiveValue("gap", 26, 20);
+	}
+	// .blog__item
+	&__item {}
+}
+.item-blog {	
+	display: flex;
+	flex-direction: column;
+	@include adaptiveValue("gap", 35, 12);
+	// .item-blog__image-ibg
+	&__image-ibg {
+		order: 1;
+		overflow: hidden;
+		aspect-ratio: 363 / 268;
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 35, 12);
+		}
+		img{
+			transition: transform 0.3s;
+			&.active {
+				transform: scale(1.2);
+			}
+			@media (any-hover: hover){
+				&:hover{
+					transform: scale(1.2);
+				}
+			}
+		}
+	}
+	// .item-blog__text
+	&__text {	
+		flex: 1 1 auto;
+		order: 2;
+		padding: toRem(0) toRem(10) toRem(0) toRem(18);
+		@media (max-width:$mobileSmall){
+			padding: toRem(0) toRem(5) toRem(0) toRem(10);
+		}	
+	}
+	// .item-blog__link-body
+	&__link-body {
+		align-self: flex-start;
+		order: 3;
+		padding: toRem(0) toRem(10) toRem(0) toRem(18);
+		@media (max-width:$mobileSmall){
+			padding: toRem(0) toRem(5) toRem(0) toRem(10);
+		}
+		@media (any-hover: hover){
+			&:hover{
+				~ .item-blog__image-ibg {
+					img{transform: scale(1.2);}
+				}
+			}
+		}
+	}
+}
+//========================================================================================================================================================
+.subscribe {
+	transform: translate(0, 100px);
+	transition: all 1s;
+	opacity: 0;
+	&._watcher-view {
+		transform: translate(0, 0px);
+		opacity: 1;
+	}
+
+	padding-top: toRem(38);
+	padding-bottom: toRem(75);
+	// .subscribe__container
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: toRem(20);
+		@media (max-width:$mobile){
+		 	flex-direction: column; 
+		 	align-items: stretch;
+		}
+	}
+	// .subscribe__header
+	&__header {
+		text-align: center;
+	}
+	// .subscribe__form
+	&__form {
+		@media (min-width:$mobile){
+			flex: 0 1 percent(765, $maxWidthContainer);
+		}
+	}
+}
+.form-subscribe {
+	min-height: toRem(39);
+	display: flex;
+	gap: toRem(24);
+	position: relative;
+	@media (max-width:$mobileSmall){
+		flex-direction: column;
+	}
+	// .form-subscribe__input
+	&__input {
+	}
+	// .form-subscribe__button
+	&__button {
+		// min-width: toRem(229);
+		padding: toRem(7) toRem(46);
+		@media (max-width:$mobile){
+			padding: toRem(7) toRem(20);
+		}
+	}
+	.form__error {
+		position: absolute;
+		color: red;
+		top: toRem(40);
+		left: toRem(10);
+	}
+}
+//========================================================================================================================================================
+
+

@@ -1,0 +1,122 @@
+// Заголовки, загальні БЕМ блоки та інше...
+//========================================================================================================================================================
+.page {
+   // .page__hero
+	&__hero {}
+	// .page__about
+	&__about {}
+   // .page__hire
+	&__hire {}
+   	// .page__teams
+	&__teams {}
+   // .page__partners
+	&__partners {}
+   // .page__design
+	&__design {}
+   	// .page__blog
+	&__blog {}
+   	// .page__subscribe
+	&__subscribe {}
+}
+//========================================================================================================================================================
+.header-block {
+   &--center{
+      text-align: center;
+   }
+	// .header-block__label
+	&__label {
+      text-transform: uppercase;
+      font-family: Kanit;
+      letter-spacing: toRem(6.88);
+      color: $greyColor;
+      line-height: 120%; /* 24/16 */
+      @include adaptiveValue("font-size", 16, 12);
+   }
+	// .header-block__title
+	&__title {
+      font-family: Kanit;
+      @include adaptiveValue("font-size", 40, 30);
+      line-height: 150%; 
+      &:not(:last-child) {
+         margin-bottom: toRem(19);
+      }
+   }
+	// .header-block__text
+	&__text {
+      @media (min-width:$mobile){
+         max-width: toRem(513);
+      }
+      p {
+         &:not(:last-child) {
+            margin-bottom: toRem(7);
+         }
+      }
+   }
+}
+//========================================================================================================================================================
+.arrow-link {
+   display: flex;
+	align-items: center;
+	column-gap: toRem(16);
+		@media (any-hover: hover){
+			&:hover{
+				.arrow-link__link {
+					text-decoration: underline;
+				}
+			}
+		}
+   // .arrow-link__link
+   &__link {
+      text-transform: uppercase;
+      font-family: Kanit;
+      letter-spacing: toRem(6.88);
+      line-height: 150%; /* 24/16 */
+   }
+   // .arrow-link__icon
+   &__icon {
+      font-size: toRem(12);
+   }
+}
+//========================================================================================================================================================
+.text-grey{
+   line-height: 137.5%; /* 22/16 */
+   color: $greyColor;
+  p{
+   &:not(:last-child) {
+      margin-bottom: toRem(7);
+   }
+  }
+}
+//========================================================================================================================================================
+.social {
+   display: flex;
+   column-gap: toRem(20);
+   flex-wrap: wrap;
+   row-gap: toRem(10);
+   // .social__link
+   &__link {
+      flex: 0 0 toRem(36);
+      height: toRem(36);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: toRem(1.5) solid $greyColor;
+      font-size: toRem(14);
+      transition: all 0.3s;
+      &::before  {
+         transition: color 0.3s;
+      }
+      @media (any-hover: hover){
+         &:hover{
+            border: toRem(1.5) solid #000;
+            color: #000;
+            background-color: #fff;
+            &::before{
+               color: #000;
+            }
+         }
+      }
+   }
+}
+//========================================================================================================================================================
