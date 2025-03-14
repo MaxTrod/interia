@@ -179,7 +179,7 @@ body {
 		@include adaptiveValue("padding-bottom", 103, 70, 0, $maxWidthContainer, 767.98);
 		position: relative;
 		z-index: 2;
-		min-height: 100vh;
+		min-height: 100svh;
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
@@ -289,7 +289,6 @@ body {
 		position: absolute;
 		left: toRem(-50);
 		bottom: toRem(130);
-		// transform: rotate(-90deg);
 		font-family: Kanit;
 		letter-spacing: toRem(6.88);
 		text-transform: uppercase;
@@ -307,10 +306,10 @@ body {
 		animation: vertical 2s ease-in-out infinite alternate 3s forwards;
 		@keyframes vertical {
 			0% {
-				bottom: toRem(130);
+				transform: translateY(0) rotate(-90deg);
 			}
 			100% {
-				bottom: toRem(100);
+				transform: translateY(-30px) rotate(-90deg);
 			}
 		}
 	}
@@ -506,7 +505,6 @@ body {
 	// .hire__body
 	&__body {
 		position: relative;
-		// overflow: hidden;
 		display: flex;
 		flex-direction: row-reverse;
 		align-items: center;
@@ -721,14 +719,6 @@ body {
 		display: flex;
 		column-gap: toRem(8);
 	}
-	// .customers-content-teams__rating
-	&__rating {}
-	// .customers-content-teams__value
-	&__value {}
-	// .customers-content-teams__text
-	&__text {
-		
-	}
 }
 .pictures-teams {
 	display: grid;
@@ -778,8 +768,6 @@ body {
 	padding-top: toRem(50);
 	padding-bottom: toRem(124);
 	background-color: $darkBg;
-	// .partners__container
-	&__container {}
 	// .partners__items
 	&__items {
 		@media (min-width:$tablet){
@@ -810,9 +798,7 @@ body {
 				opacity: 1;
 			@for $i from 1 through 4 {
 				&:nth-child(#{$i}) {
-					// $startDelay: 0.2;
 					$delay: $i * 0.1;
-					// $delay: $i * 0.1 + $startDelay;
 					transition-delay: #{$delay}s;
 				}
 			}
@@ -822,8 +808,6 @@ body {
 //========================================================================================================================================================
 .design {
 	padding-top: toRem(50);
-	// .design__container
-	&__container {}
 	// .design__list
 	&__list {
 		counter-reset: item;
@@ -878,24 +862,17 @@ body {
 		align-items: flex-start;
 		line-height: 1;
 		column-gap: toRem(12);
-		// position: relative;
 		&::before{
 			counter-increment: item;
 			content: counter(item, decimal-leading-zero)'.';
 		}
 	}
-	// .row-design__info
-	&__info {}
 	// .row-design__text
 	&__text {
 		&:not(:last-child) {
 			margin-bottom: toRem(22);
 		}
 	}
-	// .row-design__link-body
-	&__link-body {}
-	// .row-design__link
-	&__link {}
 }
 .images-design {
 	// .images-design__body
@@ -955,8 +932,6 @@ body {
 		grid-template-columns: repeat(auto-fill, minmax(toRem(270), 1fr));
 		@include adaptiveValue("gap", 26, 20);
 	}
-	// .blog__item
-	&__item {}
 }
 .item-blog {	
 	display: flex;
@@ -1049,9 +1024,6 @@ body {
 	position: relative;
 	@media (max-width:$mobileSmall){
 		flex-direction: column;
-	}
-	// .form-subscribe__input
-	&__input {
 	}
 	// .form-subscribe__button
 	&__button {

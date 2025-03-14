@@ -1,23 +1,15 @@
-// Заголовки, загальні БЕМ блоки та інше...
-//========================================================================================================================================================
-.page {
-   // .page__hero
-	&__hero {}
-	// .page__about
-	&__about {}
-   // .page__hire
-	&__hire {}
-   	// .page__teams
-	&__teams {}
-   // .page__partners
-	&__partners {}
-   // .page__design
-	&__design {}
-   	// .page__blog
-	&__blog {}
-   	// .page__subscribe
-	&__subscribe {}
-}
+.visually-hidden {
+   position: absolute;
+   width: 1px;
+   height: 1px;
+   margin: -1px;
+   border: 0;
+   padding: 0;
+   white-space: nowrap;
+   clip-path: inset(100%);
+   clip: rect(0 0 0 0);
+   overflow: hidden;
+ }
 //========================================================================================================================================================
 .header-block {
    &--center{
